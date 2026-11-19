@@ -664,9 +664,9 @@ def main():
     # ---- masthead
     d.rectangle([0, 0, W, 92], fill=NAVY)
     d.text((16, 10), "THE WORLD IN ONE DAY", font=SANS_B(13), fill=GOLD)
-    d.text((W - 16 - d.textlength("40 STORIES · 7 REGIONS · ALL FROM THIS ONE DAY",
+    d.text((W - 16 - d.textlength("39 STORIES · 7 REGIONS · ALL FROM THIS ONE DAY",
                                   font=SANS_B(11)), 12),
-           "40 STORIES · 7 REGIONS · ALL FROM THIS ONE DAY", font=SANS_B(11),
+           "39 STORIES · 7 REGIONS · ALL FROM THIS ONE DAY", font=SANS_B(11),
            fill=(255, 255, 255))
     d.text((16, 30), "Thursday, 19 November 2026", font=SERIF_B(34),
            fill=(255, 255, 255))
