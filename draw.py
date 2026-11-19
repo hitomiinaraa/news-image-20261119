@@ -197,11 +197,11 @@ LAND_RINGS = [
 PINS = [
     (1, 114.1, 22.5, "SHENZHEN", "r", -16, 114.1, 22.5),
     (2, 4.3, 52.1, "THE HAGUE", "l", -16, 4.3, 52.1),
-    (3, 48.0, 29.4, "KUWAIT", "r", -16, 50.0, 31.0),
+    (3, 8.5, 47.4, "ZURICH", "l", 14, 16.0, 44.0),
     (4, 46.7, 24.7, "RIYADH", "r", 14, 42.5, 20.0),
     (5, -80.2, 25.8, "MIAMI", "l", 16, -88.0, 22.0),
     (6, -74.0, 40.7, "NEW YORK", "l", -16, -72.0, 42.0),
-    (7, 30.7, 46.5, "ODESA", "l", -16, 29.0, 48.0),
+    (7, 30.7, 46.5, "ODESA", "r", -16, 29.0, 48.0),
     (8, 36.5, 45.3, "KERCH", "l", 14, 38.0, 44.0),
     (9, 90.4, 23.8, "DHAKA", "r", -16, 92.0, 25.0),
     (10, 85.7, 19.8, "ODISHA", "r", 14, 84.0, 18.0),
@@ -210,7 +210,7 @@ PINS = [
 ]
 
 REGION_LABELS = [
-    ("NORTH AMERICA", -100.0, 55.0),
+    ("NORTH AMERICA", -122.0, 60.0),
     ("SOUTH AMERICA", -60.0, -18.0),
     ("EUROPE", 38.0, 72.0),
     ("AFRICA", 20.0, 2.0),
@@ -278,14 +278,14 @@ LEAD = [
      "First-ever trilateral agrees 4 points: nuclear-risk talks, UN reform, more refined oil."),
     ("COURT: MYANMAR COMMITTED GENOCIDE",
      "World Court rules 9-6 the Rohingya campaign was genocide - a first of its kind."),
-    ("IRAN FIRES DRONES AT US BASES",
-     "Tehran hits Kuwait and Bahrain after US jets strike Qeshm. No casualties reported."),
+    ("APEC ADOPTS SHENZHEN OUTLOOK",
+     "Leaders agree trade, data and AI pact in Shenzhen."),
     ("HOUTHI MISSILE HITS RIYADH TOWER",
      "Saudi capital's PIF Tower damaged as the Gulf war widens."),
     ("GTA VI IS OUT",
      "Rockstar's epic launches worldwide: 99 on Metacritic, 2.3M watch on Twitch."),
     ("ANTHROPIC LISTS ON NASDAQ",
-     "AI lab debuts as ANT at $70-78 a share, the year's biggest tech listing."),
+     "AI lab debuts as ANT at $83 a share, opened $111.50 — the biggest IPO on record."),
 ]
 
 GRID = [
@@ -295,7 +295,7 @@ GRID = [
     ("TAKAICHI MEETS PUTIN", "Talks stay open after jet row."),
     ("LEE RENEWS CALL FOR N. KOREA TALKS", "Seoul urges dialogue."),
     ("BANGLADESH SHUTS DOWN; YUNUS HOME TORCHED", "Strike; ancestral home torched."),
-    ("INDONESIA PASSES ASSET-FORFEITURE BILL", "Refinery blast kills one."),
+    ("INDONESIA PASSES ASSET-FORFEITURE BILL", "DPR passes bill in Jakarta."),
     ("DENMARK BACKS GREENLAND DEFENCE DEAL", "Parliament approves 109-0."),
     ("SERBIA ELECTS NEW SPEAKER", "Cupic wins with 140 votes."),
     ("CYCLONE AKVAN NEARS; 72,000 EVACUATED", "Landfall expected Friday."),
@@ -313,7 +313,7 @@ GRID = [
     ("CLIMATE TALKS STALL ON FOSSIL FUELS", "Final-stage wording unresolved."),
     ("LPG TANKER SINKS AFTER STRIKE", "Gas Husky sinks off Bulgaria."),
     ("AID GROUPS RATE PEACE PLAN 4 OF 26", "Agencies: rollout barely started."),
-    ("APEC ADOPTS SHENZHEN OUTLOOK", "Trade, data and AI pact agreed."),
+    ("INFANTINO FACES FIRST FIFA CHALLENGE", "Diallo and Tashima to contest vote."),
     ("RED CRABS BEGIN GREAT MIGRATION", "Millions cross the island to the sea."),
 ]
 
