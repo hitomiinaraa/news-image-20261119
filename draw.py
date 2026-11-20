@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""news-image-20261119 v4 — picture-paper front page, drawn entirely in code.
+"""news-image-20261119 v5 — picture-paper front page, drawn entirely in code.
 
-40 stories, 3 drawn heroes + 12 drawn mids, number strip, region chips,
-day-by-hours timeline, REPORTED/CLAIM/FORECAST tags, numbered-pin map,
-DATE CHECK box. Output: entry.png (1024x1024, <=1 MiB), deterministic.
+39 stories, 3 drawn heroes + 12 drawn mids, number strip, region chips,
+numbered-pin map, one-line DATE CHECK. No timeline, no per-item status
+chips, no legend (rank-1 pattern: fewer chrome bands, one-line header and
+audit). Output: entry.png (1024x1024, <=1 MiB), deterministic.
 """
 import hashlib
 import os
@@ -52,21 +53,6 @@ def wrap(draw, text, font, max_w):
 def rrect(d, box, radius, fill=None, outline=None, width=1):
     d.rounded_rectangle(box, radius=radius, fill=fill, outline=outline, width=width)
 
-
-def tag(d, x, y, label, color):
-    """Status chip: REPORTED (green) / CLAIM (amber) / FORECAST (blue)."""
-    f = SANS_B(9)
-    w = int(d.textlength(label, font=f)) + 10
-    rrect(d, [x, y, x + w, y + 14], 3, fill=color)
-    d.text((x + 5, y + 2), label, font=f, fill=(255, 255, 255))
-    return w
-
-
-GREEN = (46, 125, 50)
-AMBER = (178, 106, 0)
-BLUE = (21, 101, 192)
-
-TAG_COLORS = {"REPORTED": GREEN, "CLAIM": AMBER, "FORECAST": BLUE}
 
 
 def chip(d, x, y, label, color, font):
@@ -626,7 +612,6 @@ def hero_card(d, box, hero):
     d.rectangle((x0, y0, x1, y1), fill=(255, 255, 255), outline=(200, 190, 170), width=1)
     scene_box = (x0 + 4, y0 + 4, x1 - 4, y0 + 134)
     hero["scene"](d, scene_box)
-    tag(d, x1 - 74, y0 + 8, hero["tag"], TAG_COLORS[hero["tag"]])
     d.text((x0 + 8, y0 + 138), hero["kicker"], font=SANS_B(9), fill=RED)
     lines = wrap(d, hero["headline"], SANS_B(15), x1 - x0 - 16)
     y = y0 + 152
@@ -644,7 +629,6 @@ def mid_card(d, box, mid):
     d.rectangle((x0, y0, x1, y1), fill=(255, 255, 255), outline=(200, 190, 170), width=1)
     scene_box = (x0 + 3, y0 + 3, x1 - 3, y0 + 55)
     mid["scene"](d, scene_box)
-    tag(d, x1 - 66, y0 + 5, mid["tag"], TAG_COLORS[mid["tag"]])
     d.text((x0 + 5, y0 + 58), mid["kicker"], font=SANS_B(8), fill=RED)
     lines = wrap(d, mid["headline"], SANS_B(10), x1 - x0 - 10)
     y = y0 + 69
@@ -673,21 +657,6 @@ def main():
     d.text((16, 68), "Trump, Xi and Putin share one table · World Court finds genocide · GTA VI ends a 13-year wait",
            font=SERIF(13), fill=(220, 210, 180))
 
-    # ---- timeline strip
-    d.text((16, 98), "THE DAY BY HOURS", font=SANS_B(10), fill=RED)
-    tl = [("00:00", "GTA VI unlocks"),
-          ("MORNING", "leaders sit down"),
-          ("08:40", "Suneung begins"),
-          ("10:00", "genocide verdict"),
-          ("13:30", "jobless claims"),
-          ("EVENING", "COP31 takes over")]
-    x = 140
-    for t, ev in tl:
-        d.text((x, 98), t, font=SANS_B(9), fill=INK)
-        x += d.textlength(t, font=SANS_B(9)) + 4
-        d.text((x, 98), ev, font=SANS(9), fill=(60, 60, 60))
-        x += d.textlength(ev, font=SANS(9)) + 12
-    d.line([(0, 122), (W, 122)], fill=(200, 190, 170), width=1)
 
     # ---- region chips
     regions = [("ASIA 9", (178, 60, 40)), ("EUROPE 7", (40, 90, 160)),
@@ -696,8 +665,8 @@ def main():
                ("GLOBAL 3", (100, 100, 100))]
     x = 16
     for label, color in regions:
-        x += chip(d, x, 130, label, color, SANS_B(11)) + 8
-    d.text((x + 8, 134), "pins 1–15 on the map · grey dots = briefs 16–39",
+        x += chip(d, x, 104, label, color, SANS_B(11)) + 8
+    d.text((x + 8, 108), "pins 1–15 on the map · grey dots = briefs 16–39",
            font=SANS(10), fill=(90, 90, 90))
 
     # ---- number strip (colored chips)
@@ -707,19 +676,19 @@ def main():
     cw = (W - 32) / 6
     for i, (n, lab) in enumerate(nums):
         cx = 16 + i * cw
-        rrect(d, [cx, 158, cx + cw - 8, 190], 5, fill=NAVY)
+        rrect(d, [cx, 136, cx + cw - 8, 168], 5, fill=NAVY)
         f = SERIF_B(22)
         tw = d.textlength(n, font=f)
-        d.text((cx + (cw - 8 - tw) / 2, 162), n, font=f, fill=GOLD)
+        d.text((cx + (cw - 8 - tw) / 2, 140), n, font=f, fill=GOLD)
         lf = SANS_B(8)
         lw = d.textlength(lab, font=lf)
-        d.text((cx + (cw - 8 - lw) / 2, 182), lab, font=lf,
+        d.text((cx + (cw - 8 - lw) / 2, 160), lab, font=lf,
                fill=(255, 255, 255))
 
     # ---- heroes
     hw = (W - 32 - 16) / 3
     for i, hero in enumerate(HEROES):
-        hero_card(d, (16 + i * (hw + 8), 196, 16 + (i + 1) * hw + i * 8, 412), hero)
+        hero_card(d, (16 + i * (hw + 8), 180, 16 + (i + 1) * hw + i * 8, 396), hero)
 
     # ---- mids, two rows of six
     mw = (W - 32 - 5 * 8) / 6
@@ -727,11 +696,11 @@ def main():
         for col in range(6):
             mid = MIDS[row * 6 + col]
             x0 = 16 + col * (mw + 8)
-            y0 = 420 + row * 120
+            y0 = 408 + row * 120
             mid_card(d, (x0, y0, x0 + mw, y0 + 116), mid)
 
     # ---- map + briefs
-    map_box = (8, 676, 300, 884)
+    map_box = (8, 676, 300, 916)
     draw_map(d, map_box)
     d.text((8, 660), "WHERE IT HAPPENED", font=SANS_B(10), fill=RED)
     pins = [(1, 114, 22), (2, 7, 53), (4, 28, 38), (5, -74, 40), (6, 37, 47),
@@ -755,49 +724,26 @@ def main():
         col = i // 12
         row = i % 12
         bx = 312 + col * (col_w + 12)
-        by = 676 + row * 17
+        by = 676 + row * 20
         f = SANS_B(9)
         d.rectangle([bx, by, bx + 18, by + 13], fill=RED)
         d.text((bx + 9 - d.textlength(str(num), font=f) / 2, by + 1), str(num),
                font=f, fill=(255, 255, 255))
         line = f"{place} — {text} — {src}"
-        maxw = col_w - 24 - (68 if tg != "REPORTED" else 0)
+        maxw = col_w - 24
         while d.textlength(line, font=SANS(10)) > maxw and len(line) > 4:
             line = line[:-5] + "…"
         d.text((bx + 22, by + 1), line, font=SANS(10), fill=INK)
-        if tg != "REPORTED":
-            tag(d, bx + col_w - 62, by, tg, TAG_COLORS[tg])
 
-    # ---- legend
-    d.text((16, 886), "HOW SURE ARE WE?", font=SANS_B(10), fill=RED)
-    lx = 140
-    for label, color in [("REPORTED", GREEN), ("CLAIM", AMBER), ("FORECAST", BLUE)]:
-        lx += tag(d, lx, 885, label, color) + 6
-        desc = {"REPORTED": "confirmed by a named source",
-                "CLAIM": "one side's account, unattributed",
-                "FORECAST": "expected, not yet happened"}[label]
-        d.text((lx, 887), desc, font=SANS(10), fill=(60, 60, 60))
-        lx += d.textlength(desc, font=SANS(10)) + 16
-
-    # ---- DATE CHECK
-    rrect(d, [8, 906, W - 8, 984], 4, fill=(255, 248, 240),
-          outline=RED, width=2)
-    d.text((16, 912), "✓ DATE CHECK", font=SANS_B(12), fill=RED)
-    d.text((16, 928),
-           "Every story here happened, or was first reported, on Thursday 19 November 2026.",
-           font=SANS_B(10), fill=INK)
-    d.text((16, 944),
-           "LEFT OUT AS OTHER DAYS' NEWS — 18 NOV: EU €45bn Ukraine loan · Iran fires on Kuwait and Bahrain ·",
-           font=SANS(10), fill=(60, 60, 60))
-    d.text((16, 958),
-           "Nvidia results · Van Gogh sale · Jeffries named speaker · Derna drug bust · Darmanin on Mélenchon · Anthropic $83 pricing ·",
-           font=SANS(10), fill=(60, 60, 60))
-    d.text((16, 972),
-           "Voyager 1 one light-day. 17 NOV: US strike on Qeshm.",
-           font=SANS(10), fill=(60, 60, 60))
+    # ---- DATE CHECK (one line + one exclusions line, rank-1 style)
+    d.text((16, 936), "✓ DATE CHECK — Every story here happened, or was first reported, on Thursday 19 November 2026.",
+           font=SANS_B(11), fill=(46, 125, 50))
+    d.text((16, 954),
+           "LEFT OUT AS OTHER DAYS' NEWS — 18 NOV: EU €45bn Ukraine loan · Iran fires on Kuwait and Bahrain · Nvidia results · Van Gogh sale · Jeffries named speaker · Anthropic pricing. 17 NOV: US strike on Qeshm.",
+           font=SANS(9), fill=(90, 90, 90))
 
     # ---- footer
-    d.text((16, 992),
+    d.text((16, 974),
            "Sources: Reuters, AP, AFP, BBC, Al Jazeera, UN News, Yonhap, ABC, IMD, RNZ, Daily Nation, DOL, Nature — Original drawings, drawn in code. Claims are attributed, not stated as fact.",
            font=SANS(8), fill=(90, 90, 90))
 
